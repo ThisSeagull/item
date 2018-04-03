@@ -15,6 +15,7 @@ public class User {
     private String email;
     private String nickName;
     private Integer status;
+    private String password;
 
     public User(){
     }
@@ -63,5 +64,13 @@ public class User {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 }
