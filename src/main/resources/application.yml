@@ -1,0 +1,29 @@
+##配置项配置
+name: 郑波6666
+age: 35
+
+##服务器配置
+server:
+    port: 80
+    tomcat:
+      uri-encoding: UTF-8
+
+##spring配置
+spring:
+  http:
+    encoding:
+      enabled: true
+      force: true
+      charset: UTF-8
+  messages:
+    encoding: UTF-8
+  datasource:
+    url: jdbc:mysql://118.25.104.171:3306/bugfix
+    username: root
+    password: root
+    driverClassName : com.mysql.jdbc.Driver
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+
