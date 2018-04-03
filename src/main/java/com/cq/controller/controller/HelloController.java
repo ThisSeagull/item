@@ -1,4 +1,4 @@
-package com.cq.girl;
+package com.cq.controller.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-
-
 public class HelloController {
 
     @Value("${name}")
@@ -24,4 +22,8 @@ public class HelloController {
     public String say1(){
         return "hello 黄小英";
     }
+
+
+
+
 }
