@@ -6,14 +6,15 @@ import javax.persistence.Id;
 
 @Entity
 public class User {
+
     @Id
     @GeneratedValue
     private Integer id;
     private String name;
     private Integer age;
     private String email;
-
     private String nickName;
+    private Integer status;
 
     public User(){
     }
@@ -54,5 +55,13 @@ public class User {
 
     public void setNickName(String nickName) {
         this.nickName = nickName;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
