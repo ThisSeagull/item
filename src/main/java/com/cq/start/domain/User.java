@@ -1,4 +1,4 @@
-package com.cq.controller.domain;
+package com.cq.start.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

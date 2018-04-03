@@ -1,4 +1,4 @@
-package com.cq.controller;
+package com.cq.start;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

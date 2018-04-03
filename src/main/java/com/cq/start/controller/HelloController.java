@@ -1,4 +1,4 @@
-package com.cq.controller.controller;
+package com.cq.start.controller;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.RequestMapping;

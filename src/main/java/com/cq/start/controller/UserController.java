@@ -1,7 +1,7 @@
-package com.cq.controller.controller;
+package com.cq.start.controller;
 
 
-import com.cq.controller.domain.User;
+import com.cq.start.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;

@@ -1,4 +1,4 @@
-package com.cq.controller.girl;
+package com.cq.start.girl;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
