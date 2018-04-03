@@ -4,6 +4,7 @@ package com.cq.start.controller;
 import com.cq.start.domain.User;
 import com.cq.start.domain.enums.UserStatus;
 import org.apache.commons.codec.digest.DigestUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
