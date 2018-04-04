@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/front")
-public class UserController {
+public class UserController extends BaseController {
 
     @Autowired
     private UserRepository userRepository;
@@ -26,6 +26,7 @@ public class UserController {
         u.setPassword(DigestUtils.md5Hex("111111"));
         u.setStatus(UserStatus.Enable.getCode());
         userRepository.save(u);
+        log.error("添加用户成功~~~");
         return "添加成功";
     }
 }

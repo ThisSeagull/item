@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 
 @RestController
-public class HelloController {
+public class HelloController extends BaseController{
 
     @Value("${name}")
     private String name;
@@ -20,6 +20,7 @@ public class HelloController {
     }
     @RequestMapping(value = "/hello1",method = RequestMethod.GET)
     public String say1(){
+        log.error("hello  黄小英");
         return "hello 黄小英";
     }
 
