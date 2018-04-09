@@ -1,5 +1,5 @@
 ##配置项配置
-name: 郑波103
+name: haiou
 age: 35
 
 ##服务器配置
@@ -26,4 +26,17 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: update
+  mail:
+    password: vctncbvmjqatbdbg
+    host: smtp.qq.com
+    username: 957872488@qq.com
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+
+
 
