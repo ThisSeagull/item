@@ -1,5 +1,5 @@
 ##配置项配置
-name: haiou
+name: haiou9999999
 age: 35
 
 ##服务器配置
@@ -27,7 +27,7 @@ spring:
     hibernate:
       ddl-auto: update
   mail:
-    password: vctncbvmjqatbdbg
+    password: msznqznfjwgtbbge
     host: smtp.qq.com
     username: 957872488@qq.com
     properties:
