@@ -18,16 +18,16 @@ spring:
   messages:
     encoding: UTF-8
   datasource:
-    url: jdbc:mysql://118.25.104.171:3306/bugfix
+    url: jdbc:mysql://121.40.69.250:3306/haioutest
     username: root
-    password: root
+    password: hutui@1234
     driverClassName : com.mysql.jdbc.Driver
   jpa:
     show-sql: true
     hibernate:
       ddl-auto: update
   mail:
-    password: vctncbvmjqatbdbg
+    password: msznqznfjwgtbbge
     host: smtp.qq.com
     username: 957872488@qq.com
     properties:

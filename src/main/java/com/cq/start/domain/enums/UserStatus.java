@@ -2,9 +2,9 @@ package com.cq.start.domain.enums;
 
 public enum UserStatus {
 
-        Disabled(0, "禁用"),
+        Disabled(1, "禁用"),
 
-        Enable(1, "启用");
+        Enable(0, "启用");
 
 
         private Integer code;
