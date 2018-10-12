@@ -11,8 +11,8 @@ import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
+/*import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;*/
 import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -29,13 +29,13 @@ public class UserController extends BaseController {
 
    /* @Autowired
     private UserRepository userRepository;*/
-    @Autowired
-    private JavaMailSender mailSender; //自动注入的Bean
+    /*@Autowired
+    private JavaMailSender mailSender; //自动注入的Bean*/
     @Resource
     private UserMapper userMapper;
 
-    @Value("${spring.mail.username}")
-    private String Sender; //读取
+   /* @Value("${spring.mail.username}")
+    private String Sender; //读取*/
 
 
     @RequestMapping(value = "/addSystemUser",method = RequestMethod.POST)
@@ -49,10 +49,15 @@ public class UserController extends BaseController {
         if(StringUtils.isBlank(loginName) || StringUtils.isBlank(nickName)|| StringUtils.isBlank(password)){
             return r.failure(101,"参数错误");
         }
+        QueryWrapper<SystemUser> q = new QueryWrapper();
+        q.eq("login_name",loginName);
+        SystemUser u = userMapper.selectOne(q);
+        if(u != null ){
+            return r.failure(102,"该用户已存在，请更换登录名");
+        }
         user.setLoginName(loginName);
         user.setPassword(DigestUtils.md5Hex(password));
         user.setNickName(nickName);
-        user.setId(10010);
        int result =  userMapper.insert(user);
        if(result>0){
            return r.success("注册成功");
@@ -62,16 +67,15 @@ public class UserController extends BaseController {
 
     }
 
-    @RequestMapping(value = "/sendEmail",method = RequestMethod.GET)
+ /*   @RequestMapping(value = "/sendEmail",method = RequestMethod.GET)
     public void sendMail(){
         SimpleMailMessage message = new SimpleMailMessage();
-
         message.setFrom(Sender);
         String [] arr =new String[]{"haiou@ibeidiao.com","244969436@qq.com"};
         message.setTo(arr); //自己给自己发送邮件
         message.setSubject("海鸥的邮件来啦111");
         message.setText("测试邮件内容");
         mailSender.send(message);
-    }
+    }*/
 
 }

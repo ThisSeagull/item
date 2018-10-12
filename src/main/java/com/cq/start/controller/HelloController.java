@@ -20,7 +20,6 @@ public class HelloController extends BaseController{
     }
     @RequestMapping(value = "/hello1",method = RequestMethod.GET)
     public String say1(){
-        log.error("hello  黄小英");
         return "hello 黄小英";
     }
 

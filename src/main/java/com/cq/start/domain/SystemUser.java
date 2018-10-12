@@ -2,15 +2,22 @@ package com.cq.start.domain;
 
 import java.util.Date;
 
-public class SystemUser extends BaseDomain {
+public class SystemUser {
+    private long id;
     private String loginName;
     private String nickName;
     private String password;
     private Integer status;
-    private Integer id;
     private Date createTime;
     private Date modifyTime;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
 
     public String getLoginName() {
         return loginName;
@@ -44,32 +51,18 @@ public class SystemUser extends BaseDomain {
         this.status = status;
     }
 
-    @Override
-    public Integer getId() {
-        return id;
-    }
-
-    @Override
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    @Override
     public Date getCreateTime() {
         return createTime;
     }
 
-    @Override
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
     }
 
-    @Override
     public Date getModifyTime() {
         return modifyTime;
     }
 
-    @Override
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
     }
