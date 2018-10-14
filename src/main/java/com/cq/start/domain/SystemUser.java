@@ -1,8 +1,14 @@
 package com.cq.start.domain;
 
-import java.util.Date;
+import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.KeySequence;
+import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableName;
 
+import java.util.Date;
+@TableName("system_user")
 public class SystemUser {
+    @TableId(value = "ID", type = IdType.AUTO)
     private long id;
     private String loginName;
     private String nickName;

@@ -20,25 +20,24 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
-@RequestMapping("/bops")
+@RequestMapping("/user")
 public class UserController extends BaseController {
 
    /* @Autowired
     private UserRepository userRepository;*/
     /*@Autowired
     private JavaMailSender mailSender; //自动注入的Bean*/
+    /* @Value("${spring.mail.username}")
+    private String Sender; //读取*/
     @Resource
     private UserMapper userMapper;
 
-   /* @Value("${spring.mail.username}")
-    private String Sender; //读取*/
-
-
-    @RequestMapping(value = "/addSystemUser",method = RequestMethod.POST)
+    @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     public @ResponseBody Result addUser(HttpServletRequest request){
         Result r = new Result();
         SystemUser user = new SystemUser();
@@ -59,7 +58,7 @@ public class UserController extends BaseController {
         user.setPassword(DigestUtils.md5Hex(password));
         user.setNickName(nickName);
        int result =  userMapper.insert(user);
-       if(result>0){
+        if(result>0){
            return r.success("注册成功");
        }else{
            return r.failure(1,"注册失败");
