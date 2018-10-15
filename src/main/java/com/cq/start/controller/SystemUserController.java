@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cq.start.domain.LoginTickets;
 import com.cq.start.domain.SystemUser;
 import com.cq.start.mapper.LoginTicketsMapper;
-import com.cq.start.mapper.UserMapper;
+import com.cq.start.mapper.SystemUserMapper;
 import com.cq.start.response.Result;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -34,7 +34,7 @@ public class SystemUserController extends BaseController {
     /* @Value("${spring.mail.username}")
     private String Sender; //读取*/
     @Resource
-    private UserMapper userMapper;
+    private SystemUserMapper systemUserMapper;
     @Resource
     private LoginTicketsMapper loginTicketsMapper;
 
@@ -51,21 +51,14 @@ public class SystemUserController extends BaseController {
             }
             QueryWrapper<SystemUser> q = new QueryWrapper();
             q.eq("login_name",loginName);
-            SystemUser u = userMapper.selectOne(q);
+            SystemUser u = systemUserMapper.selectOne(q);
             if(u != null ){
                 return r.failure(102,"该用户已存在，请更换登录名");
             }
             user.setLoginName(loginName);
             user.setPassword(DigestUtils.md5Hex(password));
             user.setNickName(nickName);
-            int result =  userMapper.insert(user);
-            String tickets = addLoginTicket(user.getId());
-            Cookie cookie = new Cookie("ticket",tickets);
-            cookie.setPath("/");
-            response.addCookie(cookie);
-            Cookie nickNameCookie = new Cookie("nickName",user.getNickName());
-            nickNameCookie.setPath("/");
-            response.addCookie(nickNameCookie);
+            int result =  systemUserMapper.insert(user);
             if(result>0){
                 return r.success("注册成功");
             }else{
@@ -88,7 +81,7 @@ public class SystemUserController extends BaseController {
             }
             QueryWrapper<SystemUser> q = new QueryWrapper();
             q.eq("login_name",loginName);
-            SystemUser u = userMapper.selectOne(q);
+            SystemUser u = systemUserMapper.selectOne(q);
             if(u == null ){
                 return r.failure(102,"用户不存在");
             }
@@ -108,17 +101,6 @@ public class SystemUserController extends BaseController {
         }
 
     }
-
-    public static void main(String[] args) throws Exception {
-        String name=java.net.URLEncoder.encode("黄小英", "UTF-8");
-        System.out.println(name);
-        name=java.net.URLEncoder.encode(name,"UTF-8");
-        System.out.println(name);
-        name=java.net.URLDecoder.decode(name, "UTF-8");
-        System.out.println(name);
-        System.out.println(java.net.URLDecoder.decode(name, "UTF-8"));
-    }
-
 
     public String addLoginTicket(long user_id){
         LoginTickets ticket = new LoginTickets();

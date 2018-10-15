@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cq.start.domain.SystemUser;
 import com.cq.start.domain.User;
 import com.cq.start.domain.enums.UserStatus;
-import com.cq.start.mapper.UserMapper;
+import com.cq.start.mapper.SystemUserMapper;
 import com.cq.start.response.Result;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -35,7 +35,7 @@ public class UserController extends BaseController {
     /* @Value("${spring.mail.username}")
     private String Sender; //读取*/
     @Resource
-    private UserMapper userMapper;
+    private SystemUserMapper systemUserMapper;
 
     @RequestMapping(value = "/addUser",method = RequestMethod.POST)
     public @ResponseBody Result addUser(HttpServletRequest request){
@@ -50,14 +50,14 @@ public class UserController extends BaseController {
         }
         QueryWrapper<SystemUser> q = new QueryWrapper();
         q.eq("login_name",loginName);
-        SystemUser u = userMapper.selectOne(q);
+        SystemUser u = systemUserMapper.selectOne(q);
         if(u != null ){
             return r.failure(102,"该用户已存在，请更换登录名");
         }
         user.setLoginName(loginName);
         user.setPassword(DigestUtils.md5Hex(password));
         user.setNickName(nickName);
-       int result =  userMapper.insert(user);
+       int result =  systemUserMapper.insert(user);
         if(result>0){
            return r.success("注册成功");
        }else{
