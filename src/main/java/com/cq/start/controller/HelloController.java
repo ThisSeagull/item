@@ -18,12 +18,4 @@ public class HelloController extends BaseController{
     public String say(){
         return "hello "+name;
     }
-    @RequestMapping(value = "/hello1",method = RequestMethod.GET)
-    public String say1(){
-        return "hello 黄小英";
-    }
-
-
-
-
 }

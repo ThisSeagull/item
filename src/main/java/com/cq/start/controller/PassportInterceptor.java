@@ -3,6 +3,7 @@ package com.cq.start.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.cq.start.domain.LoginTickets;
 import com.cq.start.domain.SystemUser;
+import com.cq.start.domain.enums.Status;
 import com.cq.start.mapper.LoginTicketsMapper;
 import com.cq.start.mapper.SystemUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,7 +82,7 @@ public class PassportInterceptor implements HandlerInterceptor {
             QueryWrapper<LoginTickets> lt = new QueryWrapper();
             lt.eq("tickets",tickets);
             LoginTickets loginTickets = loginTicketsMapper.selectOne(lt);
-            if(loginTickets == null ||  loginTickets.getStatus() != 0){
+            if(loginTickets == null ||  loginTickets.getStatus() != Status.Enable.getCode()){
                 httpServletResponse.setStatus(403);
                 return false;
 
