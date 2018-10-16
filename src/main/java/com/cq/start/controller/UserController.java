@@ -1,7 +1,12 @@
 package com.cq.start.controller;
 
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cq.start.domain.User;
+import com.cq.start.domain.querydomain.UserQuery;
 import com.cq.start.mapper.SystemUserMapper;
 import com.cq.start.mapper.UserMapper;
 import com.cq.start.response.Result;
@@ -16,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
+import java.util.List;
 
 @RestController
 @RequestMapping("/user")
@@ -40,9 +46,52 @@ public class UserController extends BaseController {
             if(!BaseValidator.MobileMatch(user.getMobile())){
                 return r.failure(102,"手机号校验失败");
             }
+
+            QueryWrapper<User> u = new QueryWrapper();
+            u.eq("mobile",user.getMobile());
+            List<User> userList = userMapper.selectList(u);
+            if(CollectionUtils.isNotEmpty(userList)){
+                return r.failure(103,"手机号已被注册,请换个手机号再试试");
+            }
             user.setCreateTime(new Date());
             user.setModifyTime(new Date());
             Integer result = userMapper.insert(user);
+
+            if(result >0){
+                return r.success("注册用户成功");
+            }else{
+                return r.failure(1,"注册用户失败");
+            }
+        }catch (Exception e){
+            logger.error("注册客户失败请联系管理员",e);
+            return r.failure(1,"注册客户失败请联系管理员");
+        }
+    }
+
+    @RequestMapping(value = "/editUser",method = RequestMethod.POST)
+    public @ResponseBody Result editUser(User user,HttpServletRequest request){
+        Result r = new Result();
+        try {
+            if(StringUtils.isBlank(user.getName())){
+                return r.failure(101,"姓名不能为空");
+            }
+            if(StringUtils.isBlank(user.getMobile())){
+                return r.failure(101,"手机号不能为空");
+            }
+            if(!BaseValidator.MobileMatch(user.getMobile())){
+                return r.failure(102,"手机号校验失败");
+            }
+            User oldUser = userMapper.selectById(user.getId());
+            if (!StringUtils.equals(user.getMobile(),oldUser.getMobile())){
+                QueryWrapper<User> qu = new QueryWrapper();
+                qu.eq("mobile",user.getMobile());
+                List<User> userList = userMapper.selectList(qu);
+                if(CollectionUtils.isNotEmpty(userList)){
+                    return r.failure(102,"手机号已存在，请更换手机号");
+                }
+            }
+            user.setModifyTime(new Date());
+            Integer result = userMapper.updateById(user);
             if(result >0){
                 return r.success("注册用户成功");
             }else{
@@ -52,6 +101,49 @@ public class UserController extends BaseController {
         }catch (Exception e){
             logger.error("注册客户失败请联系管理员",e);
             return r.failure(1,"注册客户失败请联系管理员");
+        }
+    }
+
+    @RequestMapping(value = "/list",method = RequestMethod.GET)
+    public @ResponseBody Result getUserList(UserQuery uq,HttpServletRequest request){
+        Result r = new Result();
+        try {
+            QueryWrapper<User> qw  = new QueryWrapper<>();
+            IPage<User> u = new Page<>(1,uq.getSize());
+
+            u.setTotal(userMapper.selectCount(qw));
+
+            IPage<User> list =  userMapper.selectPage(u,qw);
+            return r.success("获得用户列表成功").setRetObj(list);
+
+        }catch (Exception e){
+            logger.error("获得用户列表失败请联系管理员",e);
+            return r.failure(1,"获得用户列表失败请联系管理员");
+        }
+    }
+
+    @RequestMapping(value = "/list",method = RequestMethod.POST)
+    public @ResponseBody Result userList(UserQuery uq ,HttpServletRequest request){
+        Result r = new Result();
+        try {
+            QueryWrapper<User> qw  = new QueryWrapper<>();
+            IPage<User> u = new Page<>(1,uq.getSize());
+
+            if(StringUtils.isNotBlank(uq.getName())){
+                qw.like("name",uq.getName());
+            }
+            if(StringUtils.isNotBlank(uq.getMobile())){
+                qw.like("mobile",uq.getMobile());
+            }
+
+            u.setTotal(userMapper.selectCount(qw));
+
+            IPage<User> list =  userMapper.selectPage(u,qw);
+            return r.success("获得用户列表成功").setRetObj(list);
+
+        }catch (Exception e){
+            logger.error("获得用户列表失败请联系管理员",e);
+            return r.failure(1,"获得用户列表失败请联系管理员");
         }
     }
 
