@@ -158,7 +158,6 @@ public class UserController extends BaseController {
     public @ResponseBody Result editUserStatus(User user ,HttpServletRequest request){
         Result r = new Result();
         try {
-            QueryWrapper<User> qw  = new QueryWrapper<>();
             if(user.getStatus()!= Status.Disabled.getCode() || user.getStatus()!=Status.Enable.getCode()){
                 return r.failure(101,"参数错误");
             }
