@@ -82,7 +82,7 @@ public class PassportInterceptor implements HandlerInterceptor {
             QueryWrapper<LoginTickets> lt = new QueryWrapper();
             lt.eq("tickets",tickets);
             LoginTickets loginTickets = loginTicketsMapper.selectOne(lt);
-            if(loginTickets == null ||  loginTickets.getStatus() != Status.Enable.getCode()){
+            if(loginTickets == null ||  loginTickets.getStatus() != Status.Disabled.getCode()){
                 httpServletResponse.setStatus(403);
                 return false;
 
