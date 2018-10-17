@@ -6,6 +6,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.cq.start.domain.User;
+import com.cq.start.domain.enums.Status;
 import com.cq.start.domain.querydomain.UserQuery;
 import com.cq.start.mapper.SystemUserMapper;
 import com.cq.start.mapper.UserMapper;
@@ -146,6 +147,35 @@ public class UserController extends BaseController {
             return r.failure(1,"获得用户列表失败请联系管理员");
         }
     }
+
+    /**
+     * 启用或停用 客户
+     * @param user
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/editUserStatus",method = RequestMethod.POST)
+    public @ResponseBody Result editUserStatus(User user ,HttpServletRequest request){
+        Result r = new Result();
+        try {
+            QueryWrapper<User> qw  = new QueryWrapper<>();
+            if(user.getStatus()!= Status.Disabled.getCode() || user.getStatus()!=Status.Enable.getCode()){
+                return r.failure(101,"参数错误");
+            }
+            user.setModifyTime(new Date());
+            int result =  userMapper.updateById(user);
+            if(result == 1){
+                return r.success("更新成功");
+            }else{
+                return r.failure(1,"更新用户状态失败,请联系管理员");
+            }
+        }catch (Exception e){
+            logger.error("更新用户状态失败,请联系管理员",e);
+            return r.failure(1,"更新用户状态失败，请联系管理员");
+        }
+    }
+
+
 
  /*   @RequestMapping(value = "/sendEmail",method = RequestMethod.GET)
     public void sendMail(){

@@ -28,31 +28,6 @@ public class PassportInterceptor implements HandlerInterceptor {
     /*@Autowired
     HostHolder hostHolder;
 
-    //判断然后进行用户拦截
-    @Override
-    public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
-        String tickets = null;
-        if(request.getCookies() != null){
-            for(Cookie cookie : request.getCookies()){
-                if(cookie.getName().equals("ticket")){
-                    tickets = cookie.getValue();
-                    break;
-                }
-            }
-        }
-
-        if(tickets != null ){
-            loginTickets loginTickets  = lTicketsDAO.selectByTicket(tickets);
-            if(loginTickets == null || loginTickets.getExpired().before(new Date()) || loginTickets.getStatus() != 0){
-                return true;
-            }
-
-            User user = uDAO.selectById(loginTickets.getUserId());
-            hostHolder.setUser(user);
-        }
-        return true;
-    }
-
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         //就是为了能够在渲染之前所有的freemaker模板能够访问这个对象user，就是在所有的controller渲染之前将这个user加进去
