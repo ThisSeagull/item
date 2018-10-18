@@ -1,4 +1,4 @@
-package com.cq.start.domain;
+package com.cq.start.config;
 
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
