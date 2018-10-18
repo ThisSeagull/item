@@ -1,6 +1,7 @@
 package com.cq.start.domain;
 
 import com.baomidou.mybatisplus.annotation.IdType;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
@@ -19,8 +20,9 @@ public class Samples {
     private Integer price;
     private Integer weight;
     private Integer weightType;
-    private Integer createUserId;
+    private long createUserId;
     private Integer status;
+    @TableField(exist = false)
     private List<Integer> userIds;
     private Date createTime;
     private Date modifyTime;
@@ -97,13 +99,6 @@ public class Samples {
         this.weightType = weightType;
     }
 
-    public Integer getCreateUserId() {
-        return createUserId;
-    }
-
-    public void setCreateUserId(Integer createUserId) {
-        this.createUserId = createUserId;
-    }
 
     public Integer getStatus() {
         return status;
@@ -135,5 +130,13 @@ public class Samples {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public long getCreateUserId() {
+        return createUserId;
+    }
+
+    public void setCreateUserId(long createUserId) {
+        this.createUserId = createUserId;
     }
 }
