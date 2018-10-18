@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.10.RELEASE</version>
+		<version>2.0.3.RELEASE</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 
@@ -101,16 +101,6 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
-			</plugin>
-			<!-- SQL 执行性能分析，开发环境使用，线上不推荐。 maxTime 指的是 sql 最大执行时长 -->
-			<plugin interceptor="com.baomidou.mybatisplus.plugins.PerformanceInterceptor">
-			<property name="maxTime" value="100" />
-			<!--SQL是否格式化 默认false-->
-			<property name="format" value="true" />
-		   </plugin>
-			<plugin interceptor="com.baomidou.mybatisplus.plugins.PaginationInterceptor">
-				<property name="sqlParser" ref="自定义解析类、可以没有" />
-				<property name="dialectClazz" value="自定义方言类、可以没有" />
 			</plugin>
 		</plugins>
 

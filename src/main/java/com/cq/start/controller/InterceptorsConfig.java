@@ -23,8 +23,8 @@ public class InterceptorsConfig extends WebMvcConfigurerAdapter {
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(passportInterceptor).addPathPatterns("/**")
-        .excludePathPatterns("/bops/addSystemUser")
-        .excludePathPatterns("/bops/adminLogin")
+        .excludePathPatterns("/api/bops/addSystemUser")
+        .excludePathPatterns("/api/bops/adminLogin")
         .excludePathPatterns("/hello")
         ;
     }

@@ -141,9 +141,7 @@ public class UserController extends BaseController {
             if(StringUtils.isNotBlank(uq.getMobile())){
                 qw.like("mobile",uq.getMobile());
             }
-            u.setTotal(userService.count(qw));
-
-            IPage<User> list =  userService.page(u,qw);
+            IPage<User> list =  userMapper.selectPage(u,qw);
             return r.success("获得用户列表成功").setData(list);
 
         }catch (Exception e){

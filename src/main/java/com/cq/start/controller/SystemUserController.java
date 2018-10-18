@@ -144,6 +144,8 @@ public class SystemUserController extends BaseController {
         ticket.setExpired(nowDate);
         ticket.setStatus(Status.Enable.getCode());
         ticket.setTickets(UUID.randomUUID().toString().replaceAll("_",""));
+        ticket.setCreateTime(new Date());
+        ticket.setModifyTime(new Date());
         loginTicketsMapper.insert(ticket);
         return ticket.getTickets();
     }
