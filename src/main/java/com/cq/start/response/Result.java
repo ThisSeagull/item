@@ -6,8 +6,8 @@ public class Result {
 
 	private Meta meta;
 	private Object data;
-	private Object retObj;
 	private String status;
+	private Object msg;
 	
 	public Result success() {  
         this.meta = new Meta();  
@@ -15,13 +15,13 @@ public class Result {
     }  
   
     public Result success(Object data) {  
-        this.success();  
-        this.data = data;  
+        this.success();
+        this.msg = data;
         return this;  
     } 
     
-    public Result setRetObj(Object data) {    
-        this.retObj = data;  
+    public Result setData(Object data) {
+        this.data = data;
         return this;  
     }  
   
@@ -31,12 +31,12 @@ public class Result {
     }
     
     public Result failure(Integer code) {
-        this.meta = new Meta(code, "");  
+        this.meta = new Meta(code, "","");
         return this;  
     }
     
     public Result failure(MsgCode msgCode) {
-    	this.meta = new Meta(msgCode.getCode(), msgCode.getName());  
+    	this.meta = new Meta(msgCode.getCode(), msgCode.getName(),"");
         return this;
     }
   
@@ -48,10 +48,6 @@ public class Result {
         return data;  
     }  
     
-	public Object getRetObj() {
-		return retObj;
-	}
-	
 	public Result setStatus(String status) {
 	    this.status = status;
 	    return this;
@@ -64,14 +60,23 @@ public class Result {
 	public class Meta {
 		private Integer errorNO = 0;
 		private String errorInfo = "";
+		private String msg ="";
 
 		public Meta() { }  
   
-        public Meta(Integer no, String message) {  
+        public Meta(Integer no, String message,String msg) {
             this.errorNO = no;  
-            this.errorInfo = message;  
-        }  
-  
+            this.errorInfo = message;
+            this.msg =msg;
+        }
+        public Meta(Integer no, String message) {
+            this.errorNO = no;
+            this.errorInfo = message;
+        }
+        public Meta( Object message) {
+            this.msg =msg;
+        }
+
         public boolean isSuccess() {  
             return errorNO == 0;  
         }  
@@ -86,4 +91,11 @@ public class Result {
 
 	}
 
+    public Object getMsg() {
+        return msg;
+    }
+
+    public void setMsg(Object msg) {
+        this.msg = msg;
+    }
 }

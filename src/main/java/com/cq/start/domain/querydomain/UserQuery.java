@@ -7,9 +7,11 @@ public class UserQuery {
     private String mobile;
     private String name;
     private long size;
+    private long current;
 
     public UserQuery(){
         this.size = 20L;
+        this.current=1L;
     }
 
 
@@ -35,5 +37,13 @@ public class UserQuery {
 
     public void setSize(long size) {
         this.size = size;
+    }
+
+    public long getCurrent() {
+        return current;
+    }
+
+    public void setCurrent(long current) {
+        this.current = current;
     }
 }

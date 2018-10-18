@@ -6,9 +6,4 @@ import static org.slf4j.LoggerFactory.getLogger;
 public class BaseController {
     // 日志
     public Logger logger=getLogger(SystemUserController.class);
-
-
-
-
-
 }

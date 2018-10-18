@@ -11,8 +11,10 @@ import com.cq.start.domain.querydomain.UserQuery;
 import com.cq.start.mapper.SystemUserMapper;
 import com.cq.start.mapper.UserMapper;
 import com.cq.start.response.Result;
+import com.cq.start.service.UserService;
 import com.cq.start.tools.BaseValidator;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -25,7 +27,7 @@ import java.util.Date;
 import java.util.List;
 
 @RestController
-@RequestMapping("/user")
+@RequestMapping("/api/user")
 public class UserController extends BaseController {
 
     @Resource
@@ -33,6 +35,9 @@ public class UserController extends BaseController {
 
     @Resource
     private UserMapper userMapper;
+
+    @Autowired
+    private UserService userService;
 
     @RequestMapping(value = "/register",method = RequestMethod.POST)
     public @ResponseBody Result registerUser(User user,HttpServletRequest request){
@@ -115,7 +120,7 @@ public class UserController extends BaseController {
             u.setTotal(userMapper.selectCount(qw));
 
             IPage<User> list =  userMapper.selectPage(u,qw);
-            return r.success("获得用户列表成功").setRetObj(list);
+            return r.success("获得用户列表成功").setData(list);
 
         }catch (Exception e){
             logger.error("获得用户列表失败请联系管理员",e);
@@ -128,7 +133,7 @@ public class UserController extends BaseController {
         Result r = new Result();
         try {
             QueryWrapper<User> qw  = new QueryWrapper<>();
-            IPage<User> u = new Page<>(1,uq.getSize());
+            IPage<User> u = new Page<>(uq.getCurrent(),uq.getSize());
 
             if(StringUtils.isNotBlank(uq.getName())){
                 qw.like("name",uq.getName());
@@ -136,11 +141,10 @@ public class UserController extends BaseController {
             if(StringUtils.isNotBlank(uq.getMobile())){
                 qw.like("mobile",uq.getMobile());
             }
+            u.setTotal(userService.count(qw));
 
-            u.setTotal(userMapper.selectCount(qw));
-
-            IPage<User> list =  userMapper.selectPage(u,qw);
-            return r.success("获得用户列表成功").setRetObj(list);
+            IPage<User> list =  userService.page(u,qw);
+            return r.success("获得用户列表成功").setData(list);
 
         }catch (Exception e){
             logger.error("获得用户列表失败请联系管理员",e);

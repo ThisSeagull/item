@@ -1,10 +1,9 @@
 package com.cq.start.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
+import java.util.List;
 
 @TableName("user")
 public class User{
@@ -23,6 +22,8 @@ public class User{
     private Integer status;
     private Date createTime;
     private Date modifyTime;
+    @TableField(exist = false)
+    private List<Integer> userIds;
 
     public long getId() {
         return id;
@@ -134,5 +135,13 @@ public class User{
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public List<Integer> getUserIds() {
+        return userIds;
+    }
+
+    public void setUserIds(List<Integer> userIds) {
+        this.userIds = userIds;
     }
 }

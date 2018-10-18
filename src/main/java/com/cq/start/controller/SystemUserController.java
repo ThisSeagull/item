@@ -27,7 +27,7 @@ import java.util.UUID;
 import static org.slf4j.LoggerFactory.getLogger;
 
 @RestController
-@RequestMapping("/bops")
+@RequestMapping("/api/bops")
 public class SystemUserController extends BaseController {
     @Resource
     private SystemUserMapper systemUserMapper;
