@@ -24,8 +24,6 @@ public class Samples {
     private List<Long> userIds;
     private Date createTime;
     private Date modifyTime;
-    @TableField(exist = false)
-    private String tableName;
 
     public long getId() {
         return id;
@@ -140,11 +138,4 @@ public class Samples {
         this.createUserId = createUserId;
     }
 
-    public String getTableName() {
-        return tableName;
-    }
-
-    public void setTableName(String tableName) {
-        this.tableName = tableName;
-    }
 }
