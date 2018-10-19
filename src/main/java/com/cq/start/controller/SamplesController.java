@@ -89,6 +89,24 @@ public class SamplesController extends BaseController {
             return r.failure(1,"添加产品失败，请联系管理员");
         }
     }
+    @RequestMapping(value = "/getSampleById")
+    public @ResponseBody Result getSampleById(HttpServletRequest request){
+        Result r = new Result();
+        try {
+            String id =request.getParameter("id");
+            if(!StringUtils.isNumeric(id)){
+                return r.failure(101,"参数错误");
+            }
+            QueryWrapper<Samples> qw =new QueryWrapper<>();
+            qw.eq("id",id);
+            Samples sample =  samplesMapper.selectOne(qw);
+            return r.success("获得产品成功").setData(sample);
+
+        }catch (Exception e){
+            logger.error("获得产品失败请联系管理员",e);
+            return r.failure(1,"获得产品失败请联系管理员");
+        }
+    }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
     public @ResponseBody Result getSamplesList(SampleQuery sq , HttpServletRequest request){

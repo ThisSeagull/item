@@ -74,6 +74,7 @@ public class UserController extends BaseController {
         }
     }
 
+
     @RequestMapping(value = "/editUser",method = RequestMethod.POST)
     public @ResponseBody Result editUser(User user,HttpServletRequest request){
         Result r = new Result();
@@ -107,6 +108,25 @@ public class UserController extends BaseController {
         }catch (Exception e){
             logger.error("修改客户失败请联系管理员",e);
             return r.failure(1,"修改客户失败请联系管理员");
+        }
+    }
+
+    @RequestMapping(value = "/getUserById")
+    public @ResponseBody Result getUserById(HttpServletRequest request){
+        Result r = new Result();
+        try {
+            String id =request.getParameter("id");
+            if(!StringUtils.isNumeric(id)){
+                return r.failure(101,"参数错误");
+            }
+            QueryWrapper<User> qw =new QueryWrapper<>();
+            qw.eq("id",id);
+            User user =  userMapper.selectOne(qw);
+            return r.success("获得用户成功").setData(user);
+
+        }catch (Exception e){
+            logger.error("获得用户失败请联系管理员",e);
+            return r.failure(1,"获得用户失败请联系管理员");
         }
     }
 
@@ -180,6 +200,8 @@ public class UserController extends BaseController {
             return r.failure(1,"更新用户状态失败，请联系管理员");
         }
     }
+
+
 
 
 
