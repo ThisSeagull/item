@@ -38,5 +38,9 @@ spring:
 #            required: true
 logging:
   file: ./girl/girl-service.log
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*Mapper.xml
+  type-aliases-package: com.cq.start.domain
+
 
 

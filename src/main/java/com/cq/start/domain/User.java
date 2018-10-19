@@ -19,6 +19,7 @@ public class User{
     private String receivingAddress;
     private String invoiceAddress;
     private String businessLicensePath;
+    @TableLogic
     private Integer status;
     private Date createTime;
     private Date modifyTime;

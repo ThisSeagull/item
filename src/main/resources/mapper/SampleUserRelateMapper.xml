@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cq.start.mapper.SampleUserRelateMapper">
+
+    <select id="getRelateUserBySampleId"  resultType="SampleUserRelate" parameterType="long">
+        select
+        id,
+        sample_id,
+        user_id,
+        sur.create_time,
+        sur.modify_time,
+        (
+		SELECT
+			su.nick_name
+		FROM
+			system_user su
+		WHERE
+			su.id = sur.user_id
+	  ) AS userName
+        from
+        sample_user_relate sur
+        where sur.status =0 and sur.sample_id=#{sampleId}
+    </select>
+
+    <update id="setEnableById">
+        update
+
+    </update>
+
+</mapper>

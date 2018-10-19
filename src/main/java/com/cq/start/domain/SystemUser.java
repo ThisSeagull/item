@@ -1,9 +1,6 @@
 package com.cq.start.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.KeySequence;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 @TableName("system_user")
@@ -13,6 +10,7 @@ public class SystemUser {
     private String loginName;
     private String nickName;
     private String password;
+    @TableLogic
     private Integer status;
     private Date createTime;
     private Date modifyTime;

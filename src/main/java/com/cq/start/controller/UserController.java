@@ -99,14 +99,14 @@ public class UserController extends BaseController {
             user.setModifyTime(new Date());
             Integer result = userMapper.updateById(user);
             if(result >0){
-                return r.success("注册用户成功");
+                return r.success("修改用户成功");
             }else{
-                return r.failure(1,"注册用户失败");
+                return r.failure(1,"修改用户失败");
             }
 
         }catch (Exception e){
-            logger.error("注册客户失败请联系管理员",e);
-            return r.failure(1,"注册客户失败请联系管理员");
+            logger.error("修改客户失败请联系管理员",e);
+            return r.failure(1,"修改客户失败请联系管理员");
         }
     }
 
@@ -160,11 +160,16 @@ public class UserController extends BaseController {
     public @ResponseBody Result editUserStatus(User user ,HttpServletRequest request){
         Result r = new Result();
         try {
-            if(user.getStatus()!= Status.Disabled.getCode() || user.getStatus()!=Status.Enable.getCode()){
+            if(user.getStatus()!= Status.Disabled.getCode() && user.getStatus()!=Status.Enable.getCode()){
                 return r.failure(101,"参数错误");
             }
             user.setModifyTime(new Date());
-            int result =  userMapper.updateById(user);
+            int result = 0;
+            if(user.getStatus() ==Status.Disabled.getCode()){
+                result =  userMapper.deleteById(user.getId());
+            }else{
+                result = userMapper.setEnableById(user.getId());
+            }
             if(result == 1){
                 return r.success("更新成功");
             }else{

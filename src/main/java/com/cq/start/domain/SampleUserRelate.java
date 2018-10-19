@@ -1,8 +1,6 @@
 package com.cq.start.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 @TableName("sample_user_relate")
@@ -11,9 +9,14 @@ public class SampleUserRelate {
     private long id;
     private long sampleId;
     private long userId;
+    @TableLogic
     private Integer status;
     private Date createTime;
     private Date modifyTime;
+
+    @TableField(exist = false)
+    private String userName;
+
 
     public long getId() {
         return id;
@@ -61,5 +64,13 @@ public class SampleUserRelate {
 
     public void setModifyTime(Date modifyTime) {
         this.modifyTime = modifyTime;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
     }
 }

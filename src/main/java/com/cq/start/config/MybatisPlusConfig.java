@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 @EnableTransactionManagement
 @Configuration
-@MapperScan("com.cq.start.service.*.mapper*")
+@MapperScan("com.cq.start.mapper*")
 public class MybatisPlusConfig {
 
     /**
@@ -28,4 +28,6 @@ public class MybatisPlusConfig {
     public PerformanceInterceptor performanceInterceptor() {
         return new PerformanceInterceptor();
     }
+
+
 }

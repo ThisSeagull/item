@@ -1,9 +1,6 @@
 package com.cq.start.domain;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.baomidou.mybatisplus.annotation.*;
 
 import java.util.Date;
 import java.util.List;
@@ -20,12 +17,15 @@ public class Samples {
     private Integer price;
     private Integer weight;
     private Integer weightType;
-    private long createUserId;
+    private Long createUserId;
+    @TableLogic
     private Integer status;
     @TableField(exist = false)
-    private List<Integer> userIds;
+    private List<Long> userIds;
     private Date createTime;
     private Date modifyTime;
+    @TableField(exist = false)
+    private String tableName;
 
     public long getId() {
         return id;
@@ -108,11 +108,11 @@ public class Samples {
         this.status = status;
     }
 
-    public List<Integer> getUserIds() {
+    public List<Long> getUserIds() {
         return userIds;
     }
 
-    public void setUserIds(List<Integer> userIds) {
+    public void setUserIds(List<Long> userIds) {
         this.userIds = userIds;
     }
 
@@ -132,11 +132,19 @@ public class Samples {
         this.modifyTime = modifyTime;
     }
 
-    public long getCreateUserId() {
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(long createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
+    }
+
+    public String getTableName() {
+        return tableName;
+    }
+
+    public void setTableName(String tableName) {
+        this.tableName = tableName;
     }
 }
