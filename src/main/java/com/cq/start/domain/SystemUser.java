@@ -1,27 +1,17 @@
 package com.cq.start.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
+import com.cq.start.SuperEntity;
 
 import java.util.Date;
 @TableName("system_user")
-public class SystemUser {
-    @TableId(value = "ID", type = IdType.AUTO)
-    private long id;
+public class SystemUser extends SuperEntity<SystemUser> {
     private String loginName;
     private String nickName;
     private String password;
     @TableLogic
     private Integer status;
-    private Date createTime;
     private Date modifyTime;
-
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long id) {
-        this.id = id;
-    }
 
     public String getLoginName() {
         return loginName;
@@ -53,14 +43,6 @@ public class SystemUser {
 
     public void setStatus(Integer status) {
         this.status = status;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
     }
 
     public Date getModifyTime() {
