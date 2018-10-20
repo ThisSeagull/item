@@ -3,9 +3,14 @@ package com.cq.start.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.cq.start.domain.Orders;
+import com.cq.start.domain.Samples;
+import com.cq.start.domain.SystemUser;
 import com.cq.start.domain.User;
 import com.cq.start.domain.enums.InvoiceStatus;
 import com.cq.start.mapper.OrdersMapper;
+import com.cq.start.mapper.SamplesMapper;
+import com.cq.start.mapper.SystemUserMapper;
+import com.cq.start.mapper.UserMapper;
 import com.cq.start.response.Result;
 import com.cq.start.service.CommonService;
 import com.cq.start.tools.BaseValidator;
@@ -18,8 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/orders")
@@ -29,6 +33,12 @@ public class OrdersController extends BaseController{
     private CommonService commonService;
     @Resource
     private OrdersMapper ordersMapper;
+    @Resource
+    private SamplesMapper samplesMapper;
+    @Resource
+    private UserMapper userMapper;
+    @Resource
+    private SystemUserMapper systemUserMapper;
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public @ResponseBody
@@ -77,6 +87,8 @@ public class OrdersController extends BaseController{
         }
     }
 
+
+
     @RequestMapping(value = "/deleteById",method = RequestMethod.POST)
     public @ResponseBody
     Result deleteById(HttpServletRequest request){
@@ -100,6 +112,44 @@ public class OrdersController extends BaseController{
             return r.failure(1,"订单删除失败请联系管理员");
         }
     }
+
+    @RequestMapping(value = "/getDetailById",method = RequestMethod.POST)
+    public @ResponseBody
+    Result getDetailById(HttpServletRequest request){
+        Date d = new Date();
+        Result r = new Result();
+        Map m = new HashMap();
+        try {
+            String id = request.getParameter("id");
+            if(!StringUtils.isNumeric(id)){
+                return r.failure(101,"订单id错误");
+            }
+            Orders o = ordersMapper.selectById(Long.valueOf(id));
+
+            if(o == null){
+                return r.failure(101,"参数错误");
+            }
+            m.put("orderInfo",o);
+            Samples s =samplesMapper.selectById(o.getSampleId());
+            m.put("sampleInfo",s);
+
+            User u= userMapper.selectById(o.getBelongUserId());
+            m.put("userInfo",u);
+            SystemUser su =systemUserMapper.selectById(o.getCreateUserId());
+            m.put("systemUserInfo",u);
+
+            return r.success("获取订单详情成功").setData(m);
+        }catch (Exception e){
+            logger.error("订获取订单详情失败请联系管理员",e);
+            return r.failure(1,"获取订单详情失败请联系管理员");
+        }
+    }
+
+
+
+
+
+
 
 
 
