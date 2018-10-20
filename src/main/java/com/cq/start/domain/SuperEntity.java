@@ -1,4 +1,4 @@
-package com.cq.start;
+package com.cq.start.domain;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;

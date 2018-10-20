@@ -1,7 +1,6 @@
 package com.cq.start.domain;
 
 import com.baomidou.mybatisplus.annotation.*;
-import com.cq.start.SuperEntity;
 
 import java.util.Date;
 @TableName("system_user")
