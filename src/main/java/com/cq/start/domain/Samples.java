@@ -11,7 +11,7 @@ public class Samples {
     private long id;
     private String number;
     private Integer type;
-    private Integer color;
+    private String color;
     private String description;
     private String photoPath;
     private Integer price;
@@ -49,11 +49,11 @@ public class Samples {
         this.type = type;
     }
 
-    public Integer getColor() {
+    public String getColor() {
         return color;
     }
 
-    public void setColor(Integer color) {
+    public void setColor(String color) {
         this.color = color;
     }
 
