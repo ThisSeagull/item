@@ -1,18 +1,30 @@
 package com.cq.start.domain;
 
+
+import com.baomidou.mybatisplus.annotation.TableField;
+import com.baomidou.mybatisplus.annotation.TableLogic;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Random;
+import java.util.UUID;
+
 public class Orders extends SuperEntity<Orders>{
+
     private String code;//订单号
-    private long createUserId;//订单创建者
-    private long belongUserId;//订单所属者，前台用户id
-    private long sampleId;//产品id
+    private Long createUserId;//订单创建者
+    private Long belongUserId;//订单所属者，前台用户id
+    private Long sampleId;//产品id
     private Integer realPrice;//实际价格
     private Integer num;
     private Integer deliveryType;//运货方式
     private String remarks;//备注
     private String contractPath;//合同的路径
-    private String invoiceStatus;//是否开发票
+    private Integer invoiceStatus;//是否开发票
     private Integer freight;//运费
     private Integer totalPrice;//总价是 实际价格*数量 +运费
+    @TableLogic
+    private Integer status;//0 有效 1删除
 
     public String getCode() {
         return code;
@@ -22,27 +34,27 @@ public class Orders extends SuperEntity<Orders>{
         this.code = code;
     }
 
-    public long getCreateUserId() {
+    public Long getCreateUserId() {
         return createUserId;
     }
 
-    public void setCreateUserId(long createUserId) {
+    public void setCreateUserId(Long createUserId) {
         this.createUserId = createUserId;
     }
 
-    public long getBelongUserId() {
+    public Long getBelongUserId() {
         return belongUserId;
     }
 
-    public void setBelongUserId(long belongUserId) {
+    public void setBelongUserId(Long belongUserId) {
         this.belongUserId = belongUserId;
     }
 
-    public long getSampleId() {
+    public Long getSampleId() {
         return sampleId;
     }
 
-    public void setSampleId(long sampleId) {
+    public void setSampleId(Long sampleId) {
         this.sampleId = sampleId;
     }
 
@@ -86,11 +98,11 @@ public class Orders extends SuperEntity<Orders>{
         this.contractPath = contractPath;
     }
 
-    public String getInvoiceStatus() {
+    public Integer getInvoiceStatus() {
         return invoiceStatus;
     }
 
-    public void setInvoiceStatus(String invoiceStatus) {
+    public void setInvoiceStatus(Integer invoiceStatus) {
         this.invoiceStatus = invoiceStatus;
     }
 
@@ -108,5 +120,13 @@ public class Orders extends SuperEntity<Orders>{
 
     public void setTotalPrice(Integer totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
