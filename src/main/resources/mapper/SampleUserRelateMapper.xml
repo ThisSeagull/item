@@ -13,7 +13,7 @@
 		SELECT
 			su.nick_name
 		FROM
-			system_user su
+			user su
 		WHERE
 			su.id = sur.user_id
 	  ) AS userName
