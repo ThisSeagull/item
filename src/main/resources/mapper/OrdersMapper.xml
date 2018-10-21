@@ -1,9 +1,59 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.cq.start.mapper.OrdersMapper">
-    <select id="getDetailById" parameterType="long">
+    <select id="selectOrdersListPage"  resultType="Orders">
+        SELECT
+        o.*,
+        u.name as UserName,
+        su.nick_name as createUserName
+      FROM
+        orders o
+      LEFT JOIN user u ON u.id =o.belong_user_id
+      LEFT JOIN SYSTEM_USER su ON su.id =o.create_user_id
+      WHERE 1=1
+        <if test="oq.mobile != null">
+            and u.mobile like "%"#{oq.mobile}"%"
+        </if>
+        <if test="oq.userName != null">
+            and u.name like "%"#{oq.mobile}"%"
+        </if>
+        <if test="oq.createUserName != null">
+            and su.nick_name like "%"#{oq.createUserName}"%"
+        </if>
+        <if test="oq.createTimeFrom != null">
+            <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') >= DATE_FORMAT( #{oq.createTimeFrom}, '%Y-%m-%d'))]]>
+        </if>
+        <if test="oq.createTimeEnd != null">
+            <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') <= DATE_FORMAT( #{oq.createTimeEnd}, '%Y-%m-%d'))]]>
+        </if>
+    </select>
 
+    <update id="editDeliverProgressById" parameterType="map">
+        update orders o
+        set o.deliver_progress =#{deliver_progress},
+        o.modify_time =now()
+        where o.id=#{id}
+    </update>
 
+    <update id="editInvoiceProgressById" parameterType="map">
+        update orders o
+        set o.invoice_progress =#{invoice_progress},
+        o.modify_time=now()
+        where o.id=#{id}
+    </update>
+
+    <update id="editPayMentProgressById" parameterType="map">
+        update orders o
+        set o.payment_progress =#{payment_progress},
+            o.payment_method =#{payment_method},
+             o.modify_time =now()
+        where o.id=#{id}
+    </update>
+
+    <select id="getOrderDeliverRecordsByOrderId" parameterType="int" resultType="OrderDeliverRecords">
+        select *
+        from orders_deliver_records
+        where status =0 ORDER by create_time desc
     </select>
 
 </mapper>

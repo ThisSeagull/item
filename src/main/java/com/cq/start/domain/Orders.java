@@ -23,8 +23,16 @@ public class Orders extends SuperEntity<Orders>{
     private Integer invoiceStatus;//是否开发票
     private Integer freight;//运费
     private Integer totalPrice;//总价是 实际价格*数量 +运费
+    private Integer deliverProgress;//发货进度 0未发货 1已发货 2部分发货 部分发货根据有效的发货记录就可以了
+    private Integer invoiceProgress;//开票进度 0 未开票 1已开票
+    private Integer paymentProgress;//收款进度 0 未收款 1已收款
     @TableLogic
     private Integer status;//0 有效 1删除
+    @TableField(exist = false)
+    private String  userName;
+    @TableField(exist = false)
+    private String  createUserName;
+
 
     public String getCode() {
         return code;
@@ -129,4 +137,45 @@ public class Orders extends SuperEntity<Orders>{
     public void setStatus(Integer status) {
         this.status = status;
     }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
+    }
+
+    public Integer getDeliverProgress() {
+        return deliverProgress;
+    }
+
+    public void setDeliverProgress(Integer deliverProgress) {
+        this.deliverProgress = deliverProgress;
+    }
+
+    public Integer getInvoiceProgress() {
+        return invoiceProgress;
+    }
+
+    public void setInvoiceProgress(Integer invoiceProgress) {
+        this.invoiceProgress = invoiceProgress;
+    }
+
+    public Integer getPaymentProgress() {
+        return paymentProgress;
+    }
+
+    public void setPaymentProgress(Integer paymentProgress) {
+        this.paymentProgress = paymentProgress;
+    }
 }
+

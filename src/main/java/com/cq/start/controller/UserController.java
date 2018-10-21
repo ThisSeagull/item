@@ -14,6 +14,7 @@ import com.cq.start.response.Result;
 import com.cq.start.service.UserService;
 import com.cq.start.tools.BaseValidator;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -131,11 +132,11 @@ public class UserController extends BaseController {
     }
 
     @RequestMapping(value = "/list",method = RequestMethod.GET)
-    public @ResponseBody Result getUserList(UserQuery uq,HttpServletRequest request){
+    public @ResponseBody Result getUserList(@Param("uq") UserQuery uq, HttpServletRequest request){
         Result r = new Result();
         try {
             QueryWrapper<User> qw  = new QueryWrapper<>();
-            IPage<User> u = new Page<>(1,uq.getSize());
+            IPage<User> u = new Page<>(uq.getCurrent(),uq.getSize());
 
             u.setTotal(userMapper.selectCount(qw));
 
