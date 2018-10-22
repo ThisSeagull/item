@@ -1,6 +1,5 @@
 ##配置项配置
-name: 黄小英111
-age: 35
+name: item
 ##服务器配置
 server:
     port: 80
