@@ -9,4 +9,11 @@
         where id=#{id}
     </update>
 
+
+    <select id="selectByIdIgnoreStatus" parameterType="long" resultType="User">
+        select * from
+        user
+        where id=#{id}
+    </select>
+
 </mapper>

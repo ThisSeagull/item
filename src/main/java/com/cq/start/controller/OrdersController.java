@@ -134,12 +134,12 @@ public class OrdersController extends BaseController{
                 return r.failure(101,"参数错误");
             }
             m.put("orderInfo",o);
-            Samples s =samplesMapper.selectById(o.getSampleId());
+            Samples s =samplesMapper.selectByIdIgnoreStatus(o.getSampleId());
             m.put("sampleInfo",s);
 
-            User u= userMapper.selectById(o.getBelongUserId());
+            User u= userMapper.selectByIdIgnoreStatus(o.getBelongUserId());
             m.put("userInfo",u);
-            SystemUser su =systemUserMapper.selectById(o.getCreateUserId());
+            SystemUser su =systemUserMapper.selectByIdIgnoreStatus(o.getCreateUserId());
             m.put("systemUserInfo",u);
             List<OrderDeliverRecords> ordList = ordersMapper.getOrderDeliverRecordsByOrderId(o.getId());
             if(o.getDeliverProgress() !=DeliverProgress.YES.getCode() && CollectionUtils.isNotEmpty(ordList)){//如果发货进度未完成 且有发货记录 设置为发货中

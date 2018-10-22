@@ -7,4 +7,6 @@ import com.cq.start.domain.Samples;
 public interface SamplesMapper extends SuperMapper<Samples> {
 
     int setEnableById(Long id);
+
+    Samples selectByIdIgnoreStatus(Long id);
 }

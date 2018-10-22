@@ -9,4 +9,10 @@
         where id=#{id}
     </update>
 
+    <select id="selectByIdIgnoreStatus" parameterType="long" resultType="Samples">
+        select * from
+        samples
+        where id=#{id}
+    </select>
+
 </mapper>
