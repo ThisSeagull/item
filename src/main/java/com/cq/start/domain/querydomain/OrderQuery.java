@@ -7,6 +7,7 @@ public class OrderQuery {
     private String createUserName;
     private String createTimeFrom;
     private String createTimeEnd;
+    private Long userId;
     private long size;
     private long current;
 
@@ -70,5 +71,13 @@ public class OrderQuery {
 
     public void setCurrent(long current) {
         this.current = current;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }

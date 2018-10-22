@@ -174,36 +174,58 @@ public class OrdersController extends BaseController{
         Date d = new Date();
         Result r = new Result();
         try {
-            if(o.getBelongUserId() == null){
-                return r.failure(101,"用户选择错误");
+            if(o.getId()== null){
+                return r.failure(101,"参数错误");
             }
-            if(o.getSampleId() == null){
-                return r.failure(101,"产品选择错误");
+            Orders oldOrders = ordersMapper.selectById(o.getId());
+            Orders needUpdateOrder = new Orders();
+            needUpdateOrder.setId(o.getId());
+            if(o.getRealPrice() != null){
+                if(!StringUtils.isNumeric(o.getRealPrice().toString())){
+                    return r.failure(101,"实际单价格式错误，请重新输入");
+                }
+                if(oldOrders.getRealPrice() != o.getRealPrice()){
+                    needUpdateOrder.setRealPrice(o.getRealPrice());
+                }else{
+                    needUpdateOrder.setRealPrice(oldOrders.getRealPrice());
+                }
+            }else{
+                needUpdateOrder.setRealPrice(oldOrders.getRealPrice());
             }
-            if(o.getRealPrice() == null ){
-                return r.failure(101,"实际金额不能为空");
+
+            if(o.getNum() != null){
+                if(!StringUtils.isNumeric(o.getNum().toString())){
+                    return r.failure(101,"数量格式错误,请重新输入");
+                }
+                if(o.getNum() != oldOrders.getNum()){
+                    needUpdateOrder.setNum(o.getNum());
+                }else{
+                    needUpdateOrder.setNum(oldOrders.getNum());
+                }
+            }else{
+                needUpdateOrder.setNum(oldOrders.getNum());
             }
-            if(!StringUtils.isNumeric(o.getRealPrice().toString())){
-                return r.failure(101,"实际单价格式错误，请重新输入");
+
+            if(o.getInvoiceStatus() !=null){
+                if(o.getInvoiceStatus() != InvoiceStatus.Wanted.getCode()  && o.getInvoiceStatus() != InvoiceStatus.Unwanted.getCode()){
+                    return r.failure(101,"发票状态选择错误");
+                }
+                needUpdateOrder.setInvoiceStatus(o.getInvoiceStatus());
             }
-            if(o.getNum() == null){
-                return r.failure(101,"数量不能为空，请重新输入");
+
+            if(o.getFreight() != null){
+                if(!StringUtils.isNumeric(o.getFreight().toString())){
+                    return r.failure(101,"运费格式错误，请重新输入");
+                }
+                needUpdateOrder.setFreight(o.getFreight());
+            }else{
+                needUpdateOrder.setFreight(oldOrders.getFreight());
             }
-            if(o.getInvoiceStatus() ==null){
-                return r.failure(101,"请选择开票状态");
-            }
-            if(o.getInvoiceStatus() != InvoiceStatus.Wanted.getCode()  && o.getInvoiceStatus() != InvoiceStatus.Unwanted.getCode()){
-                return r.failure(101,"发票状态选择错误");
-            }
-            if(o.getFreight() != null && !StringUtils.isNumeric(o.getFreight().toString())){
-                return r.failure(101,"运费格式错误，请重新输入");
-            }
-            o.setCode(commonService.createOrderCode());
-            o.setModifyTime(d);
-            o.setTotalPrice(o.getRealPrice() *o.getNum()+o.getFreight());
-            int result = ordersMapper.updateById(o);
+            needUpdateOrder.setModifyTime(d);
+            needUpdateOrder.setTotalPrice(needUpdateOrder.getRealPrice() *needUpdateOrder.getNum()+needUpdateOrder.getFreight());
+            int result = ordersMapper.updateById(needUpdateOrder);
             if(result >0){
-                return r.success("修改订单成功").setData(o);
+                return r.success("修改订单成功");
             }else{
                 return r.failure(1,"修改订单失败");
             }
@@ -362,7 +384,7 @@ public class OrdersController extends BaseController{
     }
 
     /**
-     *添加订单发货记录
+     *删除订单发货记录
      * @param
      * @param request
      * @return
@@ -370,7 +392,6 @@ public class OrdersController extends BaseController{
     @RequestMapping(value = "/deleteOrderDeliverRecordsById",method = RequestMethod.POST)
     public @ResponseBody
     Result deleteOrderDeliverRecordsById(HttpServletRequest request){
-        Date d = new Date();
         Result r = new Result();
         try {
             String  id =request.getParameter("id");
@@ -389,21 +410,29 @@ public class OrdersController extends BaseController{
         }
     }
 
+    /**
+     *根据用户查询订单列表
+     * @param
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/getOrdersPageByUserId",method = RequestMethod.POST)
+    public @ResponseBody
+    Result getOrderListByUserId(@Param("oq") OrderQuery oq,HttpServletRequest request){
+        Result r = new Result();
+        try {
+            if(oq.getUserId() == null){
+                return r.failure(101,"参数错误");
+            }
+            IPage<Orders> page = new Page<>(oq.getCurrent(),oq.getSize());
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+            page.setRecords(ordersMapper.selectOrdersListPage(page,oq));
+            return r.success("获得用户的订单成功").setData(page);
+        }catch (Exception e){
+            logger.error("获得用户的订单失败请联系管理员",e);
+            return r.failure(1,"获得用户的订单失败请联系管理员");
+        }
+    }
 
 
 

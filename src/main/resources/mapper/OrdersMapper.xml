@@ -20,6 +20,9 @@
         <if test="oq.createUserName != null">
             and su.nick_name like "%"#{oq.createUserName}"%"
         </if>
+        <if test="oq.userId != null">
+            and u.id =#{oq.userId}
+        </if>
         <if test="oq.createTimeFrom != null">
             <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') >= DATE_FORMAT( #{oq.createTimeFrom}, '%Y-%m-%d'))]]>
         </if>
