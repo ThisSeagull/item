@@ -32,6 +32,8 @@ public class Orders extends SuperEntity<Orders>{
     private String  userName;
     @TableField(exist = false)
     private String  createUserName;
+    @TableField(exist = false)
+    private String  sampleDescription;
 
 
     public String getCode() {
@@ -176,6 +178,14 @@ public class Orders extends SuperEntity<Orders>{
 
     public void setPaymentProgress(Integer paymentProgress) {
         this.paymentProgress = paymentProgress;
+    }
+
+    public String getSampleDescription() {
+        return sampleDescription;
+    }
+
+    public void setSampleDescription(String sampleDescription) {
+        this.sampleDescription = sampleDescription;
     }
 }
 

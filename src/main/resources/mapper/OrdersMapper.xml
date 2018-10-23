@@ -5,11 +5,13 @@
         SELECT
         o.*,
         u.name as UserName,
-        su.nick_name as createUserName
+        su.nick_name as createUserName,
+        s.description as sampleDescription
       FROM
         orders o
       LEFT JOIN user u ON u.id =o.belong_user_id
       LEFT JOIN SYSTEM_USER su ON su.id =o.create_user_id
+      LEFT JOIN samples s on o.sample_id= s.id
       WHERE 1=1
         <if test="oq.mobile != null and mobile != ''">
             and u.mobile like "%"#{oq.mobile}"%"
