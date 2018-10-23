@@ -129,6 +129,11 @@ public class SystemUserController extends BaseController {
                 u.setStatus(Status.Disabled.getCode());
                 loginTicketsMapper.updateById(u);
             }
+            Cookie cookie = new Cookie("ticket",null);
+            cookie.setMaxAge(0);
+            cookie.setPath("/");
+            response.addCookie(cookie);
+
             return r.success("退出成功");
         }catch (Exception e){
             logger.error("登出出错",e);
