@@ -11,22 +11,22 @@
       LEFT JOIN user u ON u.id =o.belong_user_id
       LEFT JOIN SYSTEM_USER su ON su.id =o.create_user_id
       WHERE 1=1
-        <if test="oq.mobile != null">
+        <if test="oq.mobile != null and mobile != ''">
             and u.mobile like "%"#{oq.mobile}"%"
         </if>
-        <if test="oq.userName != null">
-            and u.name like "%"#{oq.mobile}"%"
+        <if test="oq.userName != null and oq.userName != ''">
+            and u.name like "%"#{oq.userName}"%"
         </if>
-        <if test="oq.createUserName != null">
+        <if test="oq.createUserName != null and oq.createUserName != ''">
             and su.nick_name like "%"#{oq.createUserName}"%"
         </if>
         <if test="oq.userId != null">
             and u.id =#{oq.userId}
         </if>
-        <if test="oq.createTimeFrom != null">
+        <if test="oq.createTimeFrom != null and oq.createTimeFrom != ''">
             <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') >= DATE_FORMAT( #{oq.createTimeFrom}, '%Y-%m-%d'))]]>
         </if>
-        <if test="oq.createTimeEnd != null">
+        <if test="oq.createTimeEnd != null and oq.createTimeEnd != ''">
             <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') <= DATE_FORMAT( #{oq.createTimeEnd}, '%Y-%m-%d'))]]>
         </if>
     </select>
