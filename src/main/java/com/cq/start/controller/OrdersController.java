@@ -192,7 +192,12 @@ public class OrdersController extends BaseController{
             }else{
                 needUpdateOrder.setRealPrice(oldOrders.getRealPrice());
             }
-
+            if(StringUtils.isNotBlank(o.getRemarks())){
+                needUpdateOrder.setRemarks(o.getRemarks());
+            }
+            if(o.getDeliveryType()!=null ){
+                needUpdateOrder.setDeliveryType(o.getDeliveryType());
+            }
             if(o.getNum() != null){
                 if(!StringUtils.isNumeric(o.getNum().toString())){
                     return r.failure(101,"数量格式错误,请重新输入");
