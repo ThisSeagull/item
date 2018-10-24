@@ -140,7 +140,7 @@ public class OrdersController extends BaseController{
             User u= userMapper.selectByIdIgnoreStatus(o.getBelongUserId());
             m.put("userInfo",u);
             SystemUser su =systemUserMapper.selectByIdIgnoreStatus(o.getCreateUserId());
-            m.put("systemUserInfo",u);
+            m.put("systemUserInfo",su);
             List<OrderDeliverRecords> ordList = ordersMapper.getOrderDeliverRecordsByOrderId(o.getId());
             if(o.getDeliverProgress() !=DeliverProgress.YES.getCode() && CollectionUtils.isNotEmpty(ordList)){//如果发货进度未完成 且有发货记录 设置为发货中
                 o.setDeliverProgress(DeliverProgress.DELIVING.getCode() );
