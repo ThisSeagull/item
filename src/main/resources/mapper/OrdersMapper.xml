@@ -43,6 +43,7 @@
     <update id="editInvoiceProgressById" parameterType="map">
         update orders o
         set o.invoice_progress =#{invoice_progress},
+            o.invoice_progress_remarks =#{invoice_progress_remarks},
         o.modify_time=now()
         where o.id=#{id}
     </update>
@@ -51,6 +52,7 @@
         update orders o
         set o.payment_progress =#{payment_progress},
             o.payment_method =#{payment_method},
+            o.payment_progress_remarks =#{payment_progress_remarks},
              o.modify_time =now()
         where o.id=#{id}
     </update>

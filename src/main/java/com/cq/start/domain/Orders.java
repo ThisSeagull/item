@@ -26,6 +26,9 @@ public class Orders extends SuperEntity<Orders>{
     private Integer deliverProgress;//发货进度 0未发货 1已发货 2部分发货 部分发货根据有效的发货记录就可以了
     private Integer invoiceProgress;//开票进度 0 未开票 1已开票
     private Integer paymentProgress;//收款进度 0 未收款 1已收款
+    private String  deliveryDate;//交货日期
+    private String paymentProgressRemarks;
+    private String invoiceProgressRemarks;
     @TableLogic
     private Integer status;//0 有效 1删除
     @TableField(exist = false)
@@ -186,6 +189,30 @@ public class Orders extends SuperEntity<Orders>{
 
     public void setSampleDescription(String sampleDescription) {
         this.sampleDescription = sampleDescription;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public String getPaymentProgressRemarks() {
+        return paymentProgressRemarks;
+    }
+
+    public void setPaymentProgressRemarks(String paymentProgressRemarks) {
+        this.paymentProgressRemarks = paymentProgressRemarks;
+    }
+
+    public String getInvoiceProgressRemarks() {
+        return invoiceProgressRemarks;
+    }
+
+    public void setInvoiceProgressRemarks(String invoiceProgressRemarks) {
+        this.invoiceProgressRemarks = invoiceProgressRemarks;
     }
 }
 

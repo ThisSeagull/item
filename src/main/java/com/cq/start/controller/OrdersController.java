@@ -14,6 +14,7 @@ import com.cq.start.mapper.*;
 import com.cq.start.response.Result;
 import com.cq.start.service.CommonService;
 import com.cq.start.tools.BaseValidator;
+import com.cq.start.tools.utils.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,6 +25,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @RestController
@@ -71,9 +74,25 @@ public class OrdersController extends BaseController{
             if(o.getInvoiceStatus() != InvoiceStatus.Wanted.getCode()  && o.getInvoiceStatus() != InvoiceStatus.Unwanted.getCode()){
                 return r.failure(101,"发票状态选择错误");
             }
+            if(StringUtils.isBlank(o.getDeliveryDate())){
+                return r.failure(101,"请选择交货日期");
+            }
+            try {
+                Date date=new Date();
+                SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+                String time=format.format(date);
+                if(DateUtil.convertStringToDate("yyyy-MM-dd",o.getDeliveryDate()).getTime()<DateUtil.convertStringToDate("yyyy-MM-dd",time).getTime()){
+                    return r.failure(101,"请选择交货日期不得小于今天");
+                }
+            }catch (Exception e){
+                logger.error("新增订单日期转换错误",e);
+                return r.failure(101,"日期转换错误，请联系管理员");
+            }
+
             if(o.getFreight() != null && !StringUtils.isNumeric(o.getFreight().toString())){
                 return r.failure(101,"运费格式错误，请重新输入");
             }
+
             o.setCreateUserId(commonService.getLoginUserId(request));
             o.setCode(commonService.createOrderCode());
             o.setCreateTime(d);
@@ -180,6 +199,17 @@ public class OrdersController extends BaseController{
             Orders oldOrders = ordersMapper.selectById(o.getId());
             Orders needUpdateOrder = new Orders();
             needUpdateOrder.setId(o.getId());
+            if(StringUtils.isNotBlank(o.getDeliveryDate())){
+                try {
+                    if(DateUtil.convertStringToDate("yyyy-MM-DD",oldOrders.getDeliveryDate()).getTime() > DateUtil.convertStringToDate("yyyy-MM-DD",o.getDeliveryDate()).getTime()){
+                        return r.failure(101,"新交付日期不能小于原来的交付日期");
+                    }
+                    needUpdateOrder.setDeliveryDate(o.getDeliveryDate());
+                }catch (Exception e){
+                    logger.error("修改订单时，交付日期转换错误，请联系管理员");
+                    return r.failure(101,"修改订单时，交付日期转换错误，请联系管理员");
+                }
+            }
             if(o.getRealPrice() != null){
                 if(!StringUtils.isNumeric(o.getRealPrice().toString())){
                     return r.failure(101,"实际单价格式错误，请重新输入");
@@ -287,7 +317,8 @@ public class OrdersController extends BaseController{
         try {
             String id = request.getParameter("id");
             String invoiceProgress = request.getParameter("invoiceProgress");
-            if(StringUtils.isBlank(id) || StringUtils.isBlank(invoiceProgress)){
+            String invoiceProgressRemarks = request.getParameter("invoiceProgressRemarks");
+            if(StringUtils.isBlank(id) || StringUtils.isBlank(invoiceProgress) || StringUtils.isBlank(invoiceProgressRemarks)){
                 return  r.failure(101,"参数错误");
             }
             if(!StringUtils.isNumeric(id)){
@@ -299,6 +330,7 @@ public class OrdersController extends BaseController{
             Map m =new HashMap();
             m.put("id",id);
             m.put("invoice_progress",invoiceProgress);
+            m.put("invoice_progress_remarks",invoiceProgressRemarks);
             int result =ordersMapper.editInvoiceProgressById(m);
             if(result >0){
                 return r.success("修改发票进度状态成功");
@@ -324,8 +356,9 @@ public class OrdersController extends BaseController{
             String id = request.getParameter("id");
             String paymentProgress = request.getParameter("paymentProgress");
             String paymentMethod = request.getParameter("paymentMethod");
+            String paymentProgressRemarks = request.getParameter("paymentProgressRemarks");
 
-            if(StringUtils.isBlank(id) || StringUtils.isBlank(paymentProgress)){
+            if(StringUtils.isBlank(id) || StringUtils.isBlank(paymentProgress) || StringUtils.isBlank(paymentProgressRemarks) ){
                 return  r.failure(101,"参数错误");
             }
             if(!StringUtils.isNumeric(id)){
@@ -337,6 +370,7 @@ public class OrdersController extends BaseController{
             Map m =new HashMap();
             m.put("id",id);
             m.put("payment_progress",paymentProgress);
+            m.put("payment_progress_remarks",paymentProgressRemarks);
             if(StringUtils.isBlank(paymentMethod)){
                 m.put("payment_method",null);
             }else{
