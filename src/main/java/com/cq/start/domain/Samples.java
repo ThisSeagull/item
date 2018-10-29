@@ -15,7 +15,7 @@ public class Samples {
     private String description;
     private String photoPath;
     private Integer price;
-    private Integer weight;
+    private Double weight;
     private Integer weightType;
     private Long createUserId;
     @TableLogic
@@ -81,11 +81,11 @@ public class Samples {
         this.price = price;
     }
 
-    public Integer getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Integer weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
