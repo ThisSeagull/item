@@ -201,12 +201,12 @@ public class OrdersController extends BaseController{
             needUpdateOrder.setId(o.getId());
             if(StringUtils.isNotBlank(o.getDeliveryDate())){
                 try {
-                    if(DateUtil.convertStringToDate("yyyy-MM-DD",oldOrders.getDeliveryDate()).getTime() > DateUtil.convertStringToDate("yyyy-MM-DD",o.getDeliveryDate()).getTime()){
+                    if(DateUtil.convertStringToDate("yyyy-MM-dd",oldOrders.getDeliveryDate()).getTime() > DateUtil.convertStringToDate("yyyy-MM-dd",o.getDeliveryDate()).getTime()){
                         return r.failure(101,"新交付日期不能小于原来的交付日期");
                     }
                     needUpdateOrder.setDeliveryDate(o.getDeliveryDate());
                 }catch (Exception e){
-                    logger.error("修改订单时，交付日期转换错误，请联系管理员");
+                    logger.error("修改订单时，交付日期转换错误，请联系管理员",e);
                     return r.failure(101,"修改订单时，交付日期转换错误，请联系管理员");
                 }
             }
