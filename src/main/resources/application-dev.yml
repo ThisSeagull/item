@@ -16,9 +16,9 @@ spring:
   messages:
     encoding: UTF-8
   datasource:
-    url: jdbc:mysql://121.40.69.250:3306/haioutest?characterEncoding=utf-8
+    url: jdbc:mysql://118.25.104.171:3306/item?characterEncoding=utf-8
     username: root
-    password: hutui@1234
+    password: seagull123
     driver-class-name: com.mysql.jdbc.Driver
   jpa:
     show-sql: true
