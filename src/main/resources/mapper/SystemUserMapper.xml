@@ -3,7 +3,7 @@
 <mapper namespace="com.cq.start.mapper.SystemUserMapper">
     <select id="selectByIdIgnoreStatus" parameterType="long" resultType="SystemUser">
         select * from
-        SYSTEM_USER
+        system_user
         where id=#{id}
     </select>
 
