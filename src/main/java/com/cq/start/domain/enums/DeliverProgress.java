@@ -5,7 +5,7 @@ public enum DeliverProgress {
 
     NOTYET(0, "未发货"),
 
-    DELIVING(0, "发货中"),
+    DELIVING(2, "发货中"),
     ;
 
 

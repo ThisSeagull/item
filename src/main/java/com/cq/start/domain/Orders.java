@@ -27,8 +27,10 @@ public class Orders extends SuperEntity<Orders>{
     private Integer invoiceProgress;//开票进度 0 未开票 1已开票
     private Integer paymentProgress;//收款进度 0 未收款 1已收款
     private String  deliveryDate;//交货日期
+    private Integer realType;
     private String paymentProgressRemarks;
     private String invoiceProgressRemarks;
+    private String  createDate;
     @TableLogic
     private Integer status;//0 有效 1删除
     @TableField(exist = false)
@@ -213,6 +215,22 @@ public class Orders extends SuperEntity<Orders>{
 
     public void setInvoiceProgressRemarks(String invoiceProgressRemarks) {
         this.invoiceProgressRemarks = invoiceProgressRemarks;
+    }
+
+    public Integer getRealType() {
+        return realType;
+    }
+
+    public void setRealType(Integer realType) {
+        this.realType = realType;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
+    public void setCreateDate(String createDate) {
+        this.createDate = createDate;
     }
 }
 

@@ -19,6 +19,9 @@ public class User{
     private String receivingAddress;
     private String invoiceAddress;
     private String businessLicensePath;
+    private String ww_id;
+    private String wechat_num;
+    private String qq_num;
     @TableLogic
     private Integer status;
     private Date createTime;
@@ -144,5 +147,29 @@ public class User{
 
     public void setUserIds(List<Integer> userIds) {
         this.userIds = userIds;
+    }
+
+    public String getWw_id() {
+        return ww_id;
+    }
+
+    public void setWw_id(String ww_id) {
+        this.ww_id = ww_id;
+    }
+
+    public String getWechat_num() {
+        return wechat_num;
+    }
+
+    public void setWechat_num(String wechat_num) {
+        this.wechat_num = wechat_num;
+    }
+
+    public String getQq_num() {
+        return qq_num;
+    }
+
+    public void setQq_num(String qq_num) {
+        this.qq_num = qq_num;
     }
 }

@@ -50,9 +50,13 @@ public class UserController extends BaseController {
             if(StringUtils.isBlank(user.getMobile())){
                 return r.failure(101,"手机号不能为空");
             }
+            if(StringUtils.isBlank(user.getReceivingAddress())){
+                return r.failure(101,"收货地址不能为空");
+            }
             if(!BaseValidator.MobileMatch(user.getMobile())){
                 return r.failure(102,"手机号校验失败");
             }
+
 
             QueryWrapper<User> u = new QueryWrapper();
             u.eq("mobile",user.getMobile());
@@ -85,6 +89,9 @@ public class UserController extends BaseController {
             }
             if(StringUtils.isBlank(user.getMobile())){
                 return r.failure(101,"手机号不能为空");
+            }
+            if(StringUtils.isBlank(user.getReceivingAddress())){
+                return r.failure(101,"收货地址不能为空");
             }
             if(!BaseValidator.MobileMatch(user.getMobile())){
                 return r.failure(102,"手机号校验失败");

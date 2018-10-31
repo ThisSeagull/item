@@ -3,6 +3,7 @@ package com.cq.start.mapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.cq.start.SuperMapper;
 import com.cq.start.domain.OrderDeliverRecords;
+import com.cq.start.domain.OrderPaymentRecords;
 import com.cq.start.domain.Orders;
 import com.cq.start.domain.SampleUserRelate;
 import com.cq.start.domain.querydomain.OrderQuery;
@@ -54,6 +55,12 @@ public interface OrdersMapper extends SuperMapper<Orders> {
      * @return
      */
     List<OrderDeliverRecords> getOrderDeliverRecordsByOrderId(Long oderId);
+    /**
+     * 根据订单查询有效的订单收款记录
+     * @param oderId
+     * @return
+     */
+    List<OrderPaymentRecords> getOrderPaymentRecordsByOrderId(Long oderId);
 
 
 }

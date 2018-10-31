@@ -45,7 +45,8 @@ public class OrdersController extends BaseController{
     private SystemUserMapper systemUserMapper;
     @Resource
     private OrdersDeliverRecordsMapper ordersDeliverRecordsMapper;
-
+    @Resource
+    private OrdersPaymentRecordsMapper ordersPaymentRecordsMapper;
 
     @RequestMapping(value = "/add",method = RequestMethod.POST)
     public @ResponseBody
@@ -77,6 +78,9 @@ public class OrdersController extends BaseController{
             if(StringUtils.isBlank(o.getDeliveryDate())){
                 return r.failure(101,"请选择交货日期");
             }
+
+            Samples s =samplesMapper.selectById(o.getSampleId());
+
             try {
                 Date date=new Date();
                 SimpleDateFormat format=new SimpleDateFormat("yyyy-MM-dd");
@@ -94,7 +98,7 @@ public class OrdersController extends BaseController{
             }
 
             o.setCreateUserId(commonService.getLoginUserId(request));
-            o.setCode(commonService.createOrderCode());
+            o.setCode(commonService.createOrderCode(s.getNumber()));
             o.setCreateTime(d);
             o.setModifyTime(d);
             o.setTotalPrice(o.getRealPrice() *o.getNum()+o.getFreight());
@@ -165,6 +169,11 @@ public class OrdersController extends BaseController{
                 o.setDeliverProgress(DeliverProgress.DELIVING.getCode() );
             }
             m.put("orderDeliversInfo",ordList);
+            List<OrderPaymentRecords> oprList = ordersMapper.getOrderPaymentRecordsByOrderId(o.getId());
+            if(o.getPaymentProgress() !=PaymentProgress.YES.getCode() && CollectionUtils.isNotEmpty(oprList)){//如果收款进度未完成 且有收款记录 设置为收款中
+                o.setPaymentProgress(PaymentProgress.PAYMENTING.getCode() );
+            }
+            m.put("orderPaymentsInfo",oprList);
             return r.success("获取订单详情成功").setData(m);
         }catch (Exception e){
             logger.error("订获取订单详情失败请联系管理员",e);
@@ -255,6 +264,11 @@ public class OrdersController extends BaseController{
                 needUpdateOrder.setFreight(o.getFreight());
             }else{
                 needUpdateOrder.setFreight(oldOrders.getFreight());
+            }
+            if(StringUtils.isNotBlank(o.getCreateDate())){
+                needUpdateOrder.setCreateDate(o.getCreateDate());
+            }else{
+                needUpdateOrder.setCreateDate(oldOrders.getCreateDate());
             }
             needUpdateOrder.setModifyTime(d);
             needUpdateOrder.setTotalPrice(needUpdateOrder.getRealPrice() *needUpdateOrder.getNum()+needUpdateOrder.getFreight());
@@ -473,6 +487,64 @@ public class OrdersController extends BaseController{
         }
     }
 
+    /**
+     *添加订单收款记录
+     * @param
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/addOrderPaymentRecords",method = RequestMethod.POST)
+    public @ResponseBody
+    Result addOrderPaymentRecords(OrderPaymentRecords opr, HttpServletRequest request){
+        Date d = new Date();
+        Result r = new Result();
+        try {
+            if(opr.getOrderId() == null){
+                return r.failure(101,"订单号不能为空");
+            }
+            if(opr.getAmount()== null){
+                return r.failure(101,"金额不能为空");
+            }
+            opr.setCreateTime(d);
+            opr.setModifyTime(d);
+            opr.setCreateUserId(commonService.getLoginUserId(request));
+            int result = ordersPaymentRecordsMapper.insert(opr);
+            if(result >0){
+                return r.success("创建订单收款记录成功");
+            }else{
+                return r.failure(1,"创建订单收款记录失败");
+            }
+        }catch (Exception e){
+            logger.error("创建订单收款记录失败请联系管理员",e);
+            return r.failure(1,"创建订单收款记录失败请联系管理员");
+        }
+    }
+
+    /**
+     *删除订单收款记录
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "/deleteOrderPaymentRecordsById",method = RequestMethod.POST)
+    public @ResponseBody
+    Result deleteOrderPaymentRecordsById(HttpServletRequest request){
+        Result r = new Result();
+        try {
+            String  id =request.getParameter("id");
+            if(StringUtils.isBlank(id) || !StringUtils.isNumeric(id)){
+                return  r.failure(101,"参数错误");
+            }
+            int result = ordersPaymentRecordsMapper.deleteById(Long.valueOf(id));
+            if(result > 0){
+                return r.success("删除订单收款记录成功");
+            }else{
+                return r.failure(1,"删除订单收款记录失败");
+            }
+        }catch (Exception e){
+            logger.error("删除订单收款记录失败请联系管理员",e);
+            return r.failure(1,"删除订单收款记录失败请联系管理员");
+        }
+    }
 
 
 }

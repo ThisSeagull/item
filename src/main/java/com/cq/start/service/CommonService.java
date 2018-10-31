@@ -16,5 +16,5 @@ public interface CommonService {
      * 生成订单号
      * @return
      */
-    String createOrderCode();
+    String createOrderCode(String prefix);
 }

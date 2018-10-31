@@ -26,11 +26,12 @@
             and u.id =#{oq.userId}
         </if>
         <if test="oq.createTimeFrom != null and oq.createTimeFrom != ''">
-            <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') >= DATE_FORMAT( #{oq.createTimeFrom}, '%Y-%m-%d'))]]>
+            <![CDATA[AND (DATE_FORMAT(o.create_date, '%Y-%m-%d') >= DATE_FORMAT( #{oq.createTimeFrom}, '%Y-%m-%d'))]]>
         </if>
         <if test="oq.createTimeEnd != null and oq.createTimeEnd != ''">
-            <![CDATA[AND (DATE_FORMAT(o.create_time, '%Y-%m-%d') <= DATE_FORMAT( #{oq.createTimeEnd}, '%Y-%m-%d'))]]>
+            <![CDATA[AND (DATE_FORMAT(o.create_date, '%Y-%m-%d') <= DATE_FORMAT( #{oq.createTimeEnd}, '%Y-%m-%d'))]]>
         </if>
+        ORDER  BY o.deliver_progress asc,o.payment_progress asc,o.invoice_progress asc,o.create_date asc
     </select>
 
     <update id="editDeliverProgressById" parameterType="map">
@@ -57,10 +58,17 @@
         where o.id=#{id}
     </update>
 
-    <select id="getOrderDeliverRecordsByOrderId" parameterType="int" resultType="OrderDeliverRecords">
+    <select id="getOrderDeliverRecordsByOrderId" parameterType="long" resultType="OrderDeliverRecords">
         select *
         from orders_deliver_records
-        where status =0 ORDER by create_time desc
+        where status =0 and order_id =#{order_id}
+        ORDER by create_time desc
     </select>
 
+    <select id="getOrderPaymentRecordsByOrderId" parameterType="long" resultType="OrderPaymentRecords">
+        select *
+        from orders_payment_records
+        where status =0 and order_id =#{order_id}
+        ORDER by create_time desc
+    </select>
 </mapper>
